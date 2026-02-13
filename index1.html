@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For سہانا 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #e11d48;
+            --rose-light: #fecdd3;
+            --rose-deep: #9f1239;
+            --cream: #fef7f0;
+            --ink: #2d1b4e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* HOME PAGE */
+        .home-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .home-page.hidden { display: none !important; }
+
+        .home-page h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            color: var(--rose-deep);
+            margin-bottom: 0.5rem;
+        }
+
+        .home-page .subtitle {
+            font-size: 1.25rem;
+            color: var(--ink);
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .love-btn {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+            color: white !important;
+            box-shadow: 0 10px 30px rgba(225, 29, 72, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 40px rgba(225, 29, 72, 0.5);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+            color: white !important;
+            box-shadow: 0 8px 25px rgba(100, 116, 128, 0.3);
+        }
+
+        /* NO RESPONSE SECTION */
+        .no-response-page {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .no-response-page.visible {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .no-response-page h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--rose-deep);
+            margin-bottom: 1rem;
+        }
+
+        .no-response-page p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* YES - CELEBRATION PAGE (full balloons + hearts) */
+        .celebration-page {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .celebration-page.visible {
+            display: flex;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .celebration-content {
+            max-width: 600px;
+        }
+
+        .celebration-page h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--rose-deep);
+            margin-bottom: 1rem;
+        }
+
+        .celebration-page .feelings {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+
+        .celebration-page .signature {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--rose-deep);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* BALLOONS container */
+        .balloons-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -80px;
+            width: 50px;
+            height: 60px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: riseBalloon 8s ease-in forwards;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 20px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .balloon.red { background: radial-gradient(circle at 30% 30%, #ff6b6b, #e11d48); }
+        .balloon.pink { background: radial-gradient(circle at 30% 30%, #fecdd3, #ec4899); }
+        .balloon.rose { background: radial-gradient(circle at 30% 30%, #fda4af, #f43f5e); }
+        .balloon.light { background: radial-gradient(circle at 30% 30%, #ffe4e6, #fbcfe8); }
+        .balloon.deep { background: radial-gradient(circle at 30% 30%, #be123c, #9f1239); }
+
+        @keyframes riseBalloon {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-10vh) translateX(0) scale(1);
+            }
+            100% {
+                transform: translateY(-120vh) translateX(var(--drift, 0)) scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        /* HEARTS container */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .float-heart {
+            position: absolute;
+            font-size: 24px;
+            bottom: -30px;
+            animation: riseHeart 6s ease-in forwards;
+            opacity: 0.9;
+        }
+
+        @keyframes riseHeart {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            15% { opacity: 0.95; }
+            100% {
+                transform: translateY(-110vh) scale(1) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HOME: Yes or No -->
+    <section class="home-page" id="home-page">
+        <h1>Will you be my Valentine?</h1>
+        <p class="subtitle">سہانا 💕</p>
+        <div class="btn-group">
+            <button class="love-btn yes-btn" onclick="handleYes()">Yes 💕</button>
+            <button class="love-btn no-btn" id="no-btn" onmouseenter="jumpAway()" ontouchstart="jumpAway()" onclick="handleNo()">No 😢</button>
+        </div>
+    </section>
+
+    <!-- NO: Jump / escape response -->
+    <section class="no-response-page" id="no-page">
+        <h2>Nice try! 😏</h2>
+        <p>You can't run forever—your heart knows the answer! 💕</p>
+        <button class="love-btn yes-btn" onclick="handleYes()">Okay fine... I love you! 💕</button>
+    </section>
+
+    <!-- YES: Full celebration with balloons + hearts + feelings -->
+    <section class="celebration-page" id="celebration-page">
+        <div class="celebration-content">
+            <h2>I love you, سہانا 💖</h2>
+            <p class="feelings">
+                You make every day brighter. Your smile, your laugh, your presence—you fill my heart with so much joy. I'm grateful for every moment with you, and I can't wait for forever together. Happy Valentine's Day, my love!
+            </p>
+            <p class="feelings">
+                You're beautiful inside and out. Thank you for choosing me. 💕
+            </p>
+            <p class="signature">Forever yours, with all my heart ♥</p>
+        </div>
+    </section>
+
+    <!-- Full balloons layer -->
+    <div class="balloons-container" id="balloons-container"></div>
+
+    <!-- Full hearts layer -->
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <script>
+        function jumpAway() {
+            const noBtn = document.getElementById('no-btn');
+            const maxX = window.innerWidth - 130;
+            const maxY = window.innerHeight - 60;
+            const newX = 30 + Math.random() * (maxX - 60);
+            const newY = 30 + Math.random() * (maxY - 60);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            noBtn.style.transition = 'left 0.25s ease, top 0.25s ease';
+        }
+
+        function handleNo() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('no-page').classList.add('visible');
+        }
+
+        function handleYes() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('no-page').classList.remove('visible');
+            document.getElementById('celebration-page').classList.add('visible');
+
+            // Full balloons
+            const colors = ['red', 'pink', 'rose', 'light', 'deep'];
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => createBalloon(colors[i % colors.length]), i * 120);
+            }
+
+            // Full hearts (continuous)
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createHeart(), i * 150);
+            }
+            setInterval(() => createHeart(), 400);
+        }
+
+        function createBalloon(color) {
+            const balloon = document.createElement('div');
+            balloon.className = `balloon ${color}`;
+            const startX = Math.random() * 100;
+            balloon.style.left = startX + '%';
+            balloon.style.animationDelay = (Math.random() * 2) + 's';
+            balloon.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+            document.getElementById('balloons-container').appendChild(balloon);
+            setTimeout(() => balloon.remove(), 10000);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'float-heart';
+            heart.textContent = ['❤', '♥', '💕', '💖', '💗'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (18 + Math.random() * 28) + 'px';
+            heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+            document.getElementById('hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+    </script>
+</body>
+</html>
